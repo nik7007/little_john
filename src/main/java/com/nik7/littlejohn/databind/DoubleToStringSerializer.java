@@ -7,8 +7,8 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 public class DoubleToStringSerializer extends ToStringSerializerBase {
-    public DoubleToStringSerializer(Class<?> handledType) {
-        super(handledType);
+    public DoubleToStringSerializer() {
+        super(null);
     }
 
     @Override

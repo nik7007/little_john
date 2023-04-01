@@ -8,7 +8,7 @@ class DoubleToStringSerializerTest {
 
     @Test
     public void testFormat() {
-        DoubleToStringSerializer serializer = new DoubleToStringSerializer(null);
+        DoubleToStringSerializer serializer = new DoubleToStringSerializer();
         assertEquals("", serializer.valueToString(null));
         assertEquals("0.00", serializer.valueToString(0.0));
         assertEquals("1.20", serializer.valueToString(1.2005));
