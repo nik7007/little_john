@@ -1,7 +1,7 @@
 # LittleJohn
 
 In order to execute this application you must have installed maven and jdk17 and follow this steps in your termal:
-> nvm install
+> nvm package
 
 > java -jar ./target/littlejohn-0.0.1-SNAPSHOT.jar
 
