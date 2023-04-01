@@ -1,5 +1,6 @@
 package com.nik7.littlejohn.service;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.nik7.littlejohn.resurce.Stock;
 import com.nik7.littlejohn.resurce.Ticker;
 import com.nik7.littlejohn.resurce.TickerHistory;
@@ -44,7 +45,8 @@ public class TickerService {
         return calculatePrice(stockName, LocalDate.now());
     }
 
-    private static double calculatePrice(String stockName, LocalDate localDate) {
+    @VisibleForTesting
+    protected static double calculatePrice(String stockName, LocalDate localDate) {
         char[] charArray = stockName.toCharArray();
         double result = 0.0;
         for (int i = 0; i < charArray.length; i++) {
