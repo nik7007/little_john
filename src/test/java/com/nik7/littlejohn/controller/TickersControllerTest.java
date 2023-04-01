@@ -52,13 +52,10 @@ class TickersControllerTest extends BaseIntegratedTestClass {
                 .andExpect(jsonPath("$.length()").value(3))
                 .andExpect(jsonPath("$[0]").exists())
                 .andExpect(jsonPath("$[0].symbol").value("MSFT"))
-                .andExpect(jsonPath("$[0].price").value("162.83"))
                 .andExpect(jsonPath("$[1]").exists())
                 .andExpect(jsonPath("$[1].symbol").value("PFE"))
-                .andExpect(jsonPath("$[1].price").value("138.00"))
                 .andExpect(jsonPath("$[2]").exists())
                 .andExpect(jsonPath("$[2].symbol").value("V"))
-                .andExpect(jsonPath("$[2].price").value("86.00"))
                 .andExpect(status().isOk());
 
     }
@@ -74,6 +71,22 @@ class TickersControllerTest extends BaseIntegratedTestClass {
     @Test
     public void testGetTickerHistoryPathKO() throws Exception {
         mockMvc.perform(get("/tickers/TEST_FAIL/history")
+                        .header("Authorization", "Basic dGVzdDo="))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void testGetTickerHistoryPathPagination() throws Exception {
+        mockMvc.perform(get("/tickers/AAPL/history?page=2")
+                        .header("Authorization", "Basic dGVzdDo="))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetTickerHistoryPathPaginationKo() throws Exception {
+        mockMvc.perform(get("/tickers/AAPL/history?page=41")
                         .header("Authorization", "Basic dGVzdDo="))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());

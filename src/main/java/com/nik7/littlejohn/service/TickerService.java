@@ -2,9 +2,11 @@ package com.nik7.littlejohn.service;
 
 import com.nik7.littlejohn.resurce.Stock;
 import com.nik7.littlejohn.resurce.Ticker;
+import com.nik7.littlejohn.resurce.TickerHistory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,18 +40,17 @@ public class TickerService {
                 .collect(Collectors.toList());
     }
 
-    private double calculatePrice(String stockName) {
+    private static double calculatePrice(String stockName) {
         return calculatePrice(stockName, LocalDate.now());
     }
 
-    private double calculatePrice(String stockName, LocalDate localDate) {
-        LocalDate now = LocalDate.now();
+    private static double calculatePrice(String stockName, LocalDate localDate) {
         char[] charArray = stockName.toCharArray();
         double result = 0.0;
         for (int i = 0; i < charArray.length; i++) {
             result += ((double) charArray[i] / (i + 1));
         }
-        long time = Math.abs(now.toEpochDay() - localDate.toEpochDay());
+        long time = localDate.toEpochDay();
 
         if (time == 0) {
             return result;
@@ -65,5 +66,17 @@ public class TickerService {
             result -= change;
         }
         return Math.abs(result);
+    }
+
+    public List<TickerHistory> getLastTickerValues(Ticker ticker, int days, LocalDate startDay) {
+        List<LocalDate> dates = new ArrayList<>(90);
+
+        for (int day = 0; day < days; day++) {
+            dates.add(startDay.minusDays(day));
+        }
+
+        return dates.stream()
+                .map(date -> new TickerHistory(date, calculatePrice(ticker.name(), date)))
+                .collect(Collectors.toList());
     }
 }
