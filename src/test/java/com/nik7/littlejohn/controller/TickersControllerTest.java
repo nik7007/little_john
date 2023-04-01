@@ -17,7 +17,7 @@ class TickersControllerTest extends BaseIntegratedTestClass {
     private MockMvc mockMvc;
 
     @Test
-    public void testGetUserStocksOk() throws Exception {
+    public void testGetUserStocksAuthorizationOk() throws Exception {
         mockMvc.perform(get("/tickers")
                         .header("Authorization", "Basic dGVzdDo="))
                 .andDo(print())
@@ -26,7 +26,7 @@ class TickersControllerTest extends BaseIntegratedTestClass {
     }
 
     @Test
-    public void testGetUserStocksKo() throws Exception {
+    public void testGetUserStocksAuthorizationKo() throws Exception {
         mockMvc.perform(get("/tickers")
                         .header("Authorization", "Basic xxx"))
                 .andDo(print())
@@ -35,9 +35,25 @@ class TickersControllerTest extends BaseIntegratedTestClass {
     }
 
     @Test
-    public void testGetUserStocksKo2() throws Exception {
+    public void testGetUserStocksAuthorizationKo2() throws Exception {
         mockMvc.perform(get("/tickers")
                         .header("Authorization", "dGVzdDo="))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void testGetTickerHistoryPathOK() throws Exception {
+        mockMvc.perform(get("/tickers/AAPL/history")
+                        .header("Authorization", "Basic dGVzdDo="))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetTickerHistoryPathKO() throws Exception {
+        mockMvc.perform(get("/tickers/TEST_FAIL/history")
+                        .header("Authorization", "Basic dGVzdDo="))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
