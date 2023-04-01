@@ -10,6 +10,14 @@ public class Stock {
     @JsonSerialize(using = DoubleToStringSerializer.class)
     private double price;
 
+    public Stock() {
+    }
+
+    public Stock(String symbol, double price) {
+        this.symbol = symbol;
+        this.price = price;
+    }
+
     public String getSymbol() {
         return symbol;
     }
