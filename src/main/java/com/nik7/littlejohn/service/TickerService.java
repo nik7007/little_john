@@ -57,7 +57,7 @@ public class TickerService {
 
         boolean isOdd = (time % 2) != 0;
 
-        double change = (double) (time % 1000) / 1000;
+        double change = (double) (time % 1000) / 100;
 
         if (!isOdd) {
             result += change;
